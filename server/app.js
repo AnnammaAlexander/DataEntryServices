@@ -12,7 +12,7 @@ const app= express()
 
 // Enabling CORS
 const enableCors = {
-    // origin: ["user.codedone.uk","admin.codedone.uk"],
+    // origin: ["workplacecodedone.uk"],
     origin:"*",
     exposeHeaders: ['Cross-Origin-Opener-Policy', 'Cross-Origin-Resource-Policy']
   }

@@ -15,8 +15,8 @@ baseUrl.interceptors.request.use(
             config.headers["Authorization"]=`Bearer ${token}`
         // }else if(adminToken){
         //     config.headers["Authorization"]=`Bearer ${adminToken}`
-        // }else{
-            // delete config.headers["Authorization"]
+         }else{
+             delete config.headers["Authorization"]
         }
         return config
     },

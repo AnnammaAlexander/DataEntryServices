@@ -39,7 +39,7 @@
 }
 
 /* Buttons and links */
-button {
+/* button {
   background: #5469d4;
   font-family: Arial, sans-serif;
   color: #ffffff;
@@ -53,7 +53,7 @@ button {
   transition: all 0.2s ease;
   box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
   width: 100%;
-}
+} */
 
 button:hover {
   filter: contrast(115%);
@@ -72,8 +72,8 @@ button:disabled {
 }
 
 .spinner {
-  color: rgb(255, 0, 51);
-  /* color: #ffffff; */
+  /* color: rgb(255, 0, 51); */
+  color: #ffffff;
   font-size: 22px;
   text-indent: -99999px;
   margin: 0px auto;

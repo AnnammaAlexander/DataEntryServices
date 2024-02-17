@@ -11,8 +11,10 @@ import baseUrl from "./axios";
 //getClientlis
 export const getClientlist = async()=>{
     try {
+        console.log("gggg");
         const response = await baseUrl.get('/superadmin/clientlist')
         if(response){
+            console.log("response...........");
             return response?.data
         }
     } catch (error) {

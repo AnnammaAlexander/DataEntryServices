@@ -1,5 +1,5 @@
 import { UserNavbar } from '../../component/user/UserNavbar'
-import UserSidebar from '../../component/user/userDashboard/Sidebar'
+import UserSidebar from '../../component/user/Sidebar'
 import { UserProfileCard } from '../../component/user/userProfile/UserProfile'
 
 function UaerProfilePage() {

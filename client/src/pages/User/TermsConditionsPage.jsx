@@ -1,5 +1,5 @@
 import TermsAndCondition from '../../component/user/TermsAndCondition'
-import UserSidebar from '../../component/user/userDashboard/Sidebar'
+import UserSidebar from '../../component/user/Sidebar'
 import { UserNavbar } from '../../component/user/UserNavbar'
 function TermsConditionsPage() {
   return (

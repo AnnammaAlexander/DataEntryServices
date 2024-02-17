@@ -145,7 +145,7 @@ const navigate = useNavigate()
           </tr>
         </thead>
         <tbody>
-          {cilentlistData.map(({ name, email, phonenumber,DMID,PackageDetails,FranchiseeName,SaleAgentName,RegisteredDate,ExpiryDate ,TypeofRegistration,_id}, index) => {
+          {cilentlistData.map(({ name, email, phonenumber,PackageDetails,FranchiseeName,SaleAgentName,RegisteredDate,ExpiryDate ,TypeofRegistration,_id}, index) => {
             const isLast = index === TABLE_ROWS.length - 1;
             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 

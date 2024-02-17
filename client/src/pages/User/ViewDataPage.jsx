@@ -1,6 +1,6 @@
 import { UserNavbar } from "../../component/user/UserNavbar"
 import ViewData from "../../component/user/ViewData"
-import UserSidebar from "../../component/user/userDashboard/Sidebar"
+import UserSidebar from "../../component/user/Sidebar"
 
 
      

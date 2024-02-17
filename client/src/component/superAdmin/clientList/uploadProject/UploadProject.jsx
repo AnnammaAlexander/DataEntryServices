@@ -34,7 +34,13 @@ export function UploadProject() {
   const [open, setOpen] = useState(false);
   const [allProjects,setAllProject]= useState([])
   const [projectCount,setProjectCount] = useState("")
+  const [isUploading ,setIsUploading] = useState(false)
 const handleUploadProject =()=>{
+  if (isUploading) {
+    console.log("Upload is already in progress. Please wait.");
+    return;
+  }
+  setIsUploading(true)
   handleProjectCount();
   handleOpen();
 }
@@ -59,16 +65,19 @@ const nextProjectCount = projectCount+1;
   };
   //uploaad image files
   const handleUpload = async () => {
-    const response = await uploadImageFiles(id, images,nextProjectCount);
+    try {
+      const response = await uploadImageFiles(id, images, nextProjectCount);
 
-    if (response.status) {
-      setOpen(!open);
-
-      toast.success("Upload successfully");
-      setImgfiles([]);
-    }else{
-      handleOpen();
-      toast.error("internal server error")
+      if (response.status) {
+        setOpen(!open);
+        toast.success("Upload successfully");
+        setImgfiles([]);
+      } else {
+        handleOpen();
+        toast.error("Internal server error");
+      }
+    } finally {
+      setIsUploading(false); // Reset the flag whether the upload is successful or not
     }
   };
   const clerInputField = useRef(null);
@@ -115,52 +124,10 @@ const handleUser = () =>{
           Home / ClientList / User data / Projects
         </p>
       </div>
-          {/* <div className="flex justify-center flex-col gap-2">
-        <Typography variant="h4" color="blue-gray">
-            Assigned Projects
-        </Typography> 
-
-        <Typography variant="h5" color="blue-gray" textGradient>
-           No Assigned Projects
-        </Typography> 
-        </div> */}
-          <div className="flex flex-col items-center justify-between gap-2 md:flex-row mt-3">
-            {/* <div className="relative flex  w-full max-w-[30rem]">
-            <Input
-              type="file"
-              label="Upload Images"
-              multiple
-              accept=".jpg,.png,.gif,.jpeg"
-              name="img"
-              ref={clerInputField}
-              onChange={uploadImages}
-              className="pr-20"
-              containerProps={{
-                className: "min-w-0",
-              }}
-            />
-            <div className=" top-1 flex gap-2 absolute right-1">
-              <Button
-                size="sm"
-                color={imgfiles.length ? "gray" : "blue-gray"}
-                disabled={!imgfiles.length}
-                className=" right-1  rounded text-red-900 p-1 "
-                onClick={clearImages}
-              >
-                <XMarkIcon class="h-6 w-6 text-gray-500" />
-              </Button>
-              <Button
-                size="sm"
-                color={imgfiles.length ? "gray" : "blue-gray"}
-                disabled={!imgfiles.length}
-                className=" right-1 top-1 rounded"
-                onClick={handleUpload}
-              >
-                Upload
-              </Button>
-            </div>
-          </div> */}
-            <Button className="buttonstyle text-sm " onClick={handleUploadProject}>
+         
+          <div className="flex flex-col items-center justify-center gap-2 md:flex-row mt-3">
+           
+            <Button className="buttonstyle text-md " onClick={handleUploadProject}>
               Upload Projects
             </Button>
           </div>
@@ -203,7 +170,7 @@ const handleUser = () =>{
         
       ) : (
         <p className="text-red-800 text-center mt-5 text-xl">
-          No uploaded repoarts
+          No uploaded Projects
         </p>
       )}
         </CardBody>

@@ -15,8 +15,18 @@ import {
   UsersIcon,
 } from "@heroicons/react/24/outline";
 import image1 from "../../../assets/circle.svg";
+import { useEffect } from "react";
+import { getData } from "../../../API/apiUserConnection";
 
 function Dashboard() {
+const fetchData =async()=>{
+const response = await getData()
+console.log(response);
+}
+
+  useEffect(()=>{
+fetchData()
+  },[])
    
 const TABLE_HEAD = ["Project", "No.of Projects", "Start Date", "Status", "Project End Date", ""];
  

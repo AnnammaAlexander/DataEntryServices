@@ -12,7 +12,7 @@ import { useState } from "react";
 import { ArrowLeftEndOnRectangleIcon } from "@heroicons/react/24/outline";
 import { CardBody } from "@material-tailwind/react";
 import { VerifyEmail, makePayment } from "../../../API/apiUserConnection";
-// import * as Yup from "yup";
+import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useRef } from "react";
 import { useMemo } from "react";
@@ -21,7 +21,7 @@ import countryList from "react-select-country-list";
 // import { useNavigate } from "react-router-dom";
 // import { toast } from "react-toastify";
 
-
+import { Link } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import "./stripePayment/StripeCss.css";
@@ -54,13 +54,16 @@ export function UserSignupForm() {
 
   const [continues, setContinue] = useState(true);
   const [formValues, setFormValues] = useState({});
+  const [planValue,setPlanValue]=useState({})
 
   const handleContinue = () => setContinue(!continues);
   async function handlePayment(amount,plan) {
+    setPlanValue((prev)=>({
+      ...prev,amount,plan
+    }))
     // navigate('/payment')
 console.log("formValues",formValues);
      const response = await makePayment(formValues, amount,plan);
-     console.log("response////////", response);
      
 if(response?.clientSecret){
   setClientSecret(response?.clientSecret)
@@ -75,7 +78,7 @@ if(response?.clientSecret){
   //     toast.error(response.message);
   //   }
    }
-console.log("clientSecretvvvvvvvvvvvvv",clientSecret);
+// console.log("clientSecretvvvvvvvvvvvvv",clientSecret);
 const appearance = {
   theme: 'stripe',
 };
@@ -128,60 +131,60 @@ const option = {
       UploadId: null,
       emailVerification: "",
     },
-    // validationSchema: Yup.object({
-    //   name: Yup.string()
-    //     .max(20, "Must be less than 20 characters")
-    //     .required("Required"),
+    validationSchema: Yup.object({
+      name: Yup.string()
+        .max(20, "Must be less than 20 characters")
+        .required("Required"),
 
-    //   phonenumber: Yup.string()
-    //     .matches(
-    //       /^[0-9]{10}$/,
-    //       "Mobile number must be a 10-digit numeric value"
-    //     )
+      phonenumber: Yup.string()
+        .matches(
+          /^[0-9]{10}$/,
+          "Mobile number must be a 10-digit numeric value"
+        )
 
-    //     .required("Required"),
+        .required("Required"),
 
-    //   email: Yup.string().email("Invalid email address").required("Required"),
+      email: Yup.string().email("Invalid email address").required("Required"),
 
-    //   nationality: Yup.string().required("Required"),
+      nationality: Yup.string().required("Required"),
 
-    //   currentlocation: Yup.string()
-    //     .max(50, "Must be less than 50 characters")
-    //     .required("Required"),
+      currentlocation: Yup.string()
+        .max(50, "Must be less than 50 characters")
+        .required("Required"),
 
-    //   UploadId: Yup.mixed()
-    //     .required("Upload your Id")
-    //     .test(
-    //       "fileSize",
-    //       "File size is too large (max 5 MB)",
-    //       (value) => value && value.size <= 5 * 1024 * 1024
-    //     )
-    //     .test(
-    //       "fileType",
-    //       "Invalid file type. Only image files (JPEG, PNG, GIF) or PDF are allowed.",
-    //       (value) =>
-    //         !value ||
-    //         (value &&
-    //           [
-    //             "image/jpeg",
-    //             "image/png",
-    //             "image/gif",
-    //             "application/pdf",
-    //           ].includes(value.type))
-    //     ),
-    // }),
+      UploadId: Yup.mixed()
+        .required("Upload your Id")
+        .test(
+          "fileSize",
+          "File size is too large (max 5 MB)",
+          (value) => value && value.size <= 5 * 1024 * 1024
+        )
+        .test(
+          "fileType",
+          "Invalid file type. Only image files (JPEG, PNG, GIF) or PDF are allowed.",
+          (value) =>
+            !value ||
+            (value &&
+              [
+                "image/jpeg",
+                "image/png",
+                "image/gif",
+                "application/pdf",
+              ].includes(value.type))
+        ),
+    }),
     onSubmit: async (values) => {
-              setFormValues(values);
-                      handleContinue();
+              // setFormValues(values);
+              //         handleContinue();
 
 
-      // if(verified){
-      //   setFormValues(values);
+      if(verified){
+        setFormValues(values);
 
-      //   handleContinue();
-      // }else{
-      //   setEmailCheckError(true)
-      // }
+        handleContinue();
+      }else{
+        setEmailCheckError(true)
+      }
     },
   });
   // console.log("values..........", values);
@@ -278,15 +281,7 @@ const option = {
                 <Typography variant="h6" color="blue-gray" className="">
                   Nationality
                 </Typography>
-                {/* <Input
-              size="lg"
-              placeholder="Nationality"
-              className=" !border-t-blue-gray-200 focus:!border-light-blue-400 lg:w-80"
-              labelProps={{
-                className: "before:content-none after:content-none",
-              }}
-              {...formik.getFieldProps("nationality")}
-            /> */}
+               
                 <Select
                   options={options}
                   defaultValue={formik.values.nationality}
@@ -316,13 +311,17 @@ const option = {
               <div>
                 <button
                   type="button"
-                  className="text-black ring-1 ring-gray-400 rounded h-[2.69rem] overflow-scroll no-scrollbar mt-6 lg:w-80 sm:w-96 w-96 "
+                  className="text-black ring-1 ring-gray-400 rounded h-[2.69rem] overflow-scroll no-scrollbar mt-6 lg:w-80 w-full "
                   style={{ background: "#eefbfd" }}
                   onClick={() => uploadIdInput.current.click()}
                 >
                   {formik.values.UploadId
                     ? `File name:${formik.values.UploadId.name}`
-                    : " Upload your ID Proof"}
+                    : 
+                    
+                    <Typography variant="h6" color="blue-gray" className="">
+                   Upload your ID Proof
+                  </Typography> }
                   {/* Upload your ID */}
                   <input
                     ref={uploadIdInput}
@@ -352,6 +351,7 @@ const option = {
 
                 <div className="relative">
                 <Input
+                type="email"
                   size="lg"
                   placeholder="name@mail.com"
                   className=" !border-t-blue-gray-200 focus:!border-light-blue-400 lg:w-80 "
@@ -366,14 +366,14 @@ const option = {
                    readOnly={verified}
                 />
                 {verified ? <div className="text-lg absolute right-2 top-2 h-9 text-light-blue-800 font-bold " >verified</div>:
-                <div className=" absolute right-1 top-1 h-9 sm:m-auto ring-red-900 ring-1 rounded p-1 text-white "
+                <button className=" absolute right-1 top-1 h-9 sm:m-auto ring-red-900 ring-1 rounded p-1 text-white "
                 style={{
                   backgroundImage:
                     "linear-gradient(173.1deg, rgba(226,66,249,0.94) 10.2%, rgba(79,147,249,1) 77.3%)",
-                }}                  onClick={handleVerifyEmail}
+                }}                  onClick={handleVerifyEmail} aria-disabled disabled={!userEmail?.length}
                 >
                   verify
-                </div>}
+                </button>}
                 </div>
                 <p className="h-4 ml-2 text-sm text-red-800">
                   {formik.touched.email && formik.errors.email
@@ -388,7 +388,7 @@ const option = {
                     {emailCheckError && (<p className="text-center text-red-800 font-thin">Verify Email</p>)}
             <Button
               type="submit"
-              className="mt-6 text-black text-md  "
+              className="mt-6 text-white text-md  "
               size="sm"
               fullWidth
               // style={{ background: "#17a2b8" }}
@@ -402,9 +402,12 @@ const option = {
             </Button>
             <Typography color="gray" className="mt-4 text-center font-normal">
               Already have an account?{" "}
-              <a href="#" className="font-medium text-blue-800">
-                Sign In
-              </a>
+              {/* <a href="#" className="font-medium text-blue-800">
+              </a> */}
+              <Link to="/">
+
+              Sign In
+              </Link>
             </Typography>
           </form>
         </Card>
@@ -414,7 +417,7 @@ const option = {
         {clientSecret?.length ?(
           <div className="StripeCss">
           <Elements options={option} stripe={stripePromise}>
-            <CheckoutForm/>
+            <CheckoutForm formValues={formValues} planValue={planValue}/>
           </Elements>
           </div>
         ) :
@@ -572,7 +575,7 @@ const option = {
       <Dialog
         open={open}
         handler={handleOpen}
-        className="shadow-2xl ring-2"
+        className="shadow-2xl ring-2 w-96"
         dismiss={{ outsidePress: false }}
       >
         <DialogHeader className="text-center mt-4 text-light-blue-600">
@@ -581,8 +584,8 @@ const option = {
         <DialogBody>
           <div className="w-96 h-16  m-auto">
             <Input
-              className="h-16 w-96 text-xl"
-              label="Ener  verification code.."
+              className="h-16 w-fit text-xl"
+              label="Enter verification code.."
               onChange={(event) => setUserUId(event.target.value)}
             />
           </div>
@@ -591,6 +594,7 @@ const option = {
           )}
         </DialogBody>
         <DialogFooter>
+        
           <Button
             variant="text"
             color="red"

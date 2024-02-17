@@ -1,13 +1,20 @@
 import{ useEffect, useState } from "react";
+import PropTypes from "prop-types";
+
 import {
   PaymentElement,
   useStripe,
   useElements
 } from "@stripe/react-stripe-js";
+import { useNavigate } from "react-router-dom";
+import { saveUser } from "../../../../API/apiUserConnection";
 
-const CheckoutForm = () => {
-  
+const CheckoutForm = (props) => {
+  const navigate = useNavigate()
 
+  const { formValues, planValue } = props;
+
+// console.log("....userDetails",formValues,planValue);
     const stripe = useStripe();
     const elements = useElements();
   
@@ -51,6 +58,7 @@ const CheckoutForm = () => {
       if (!stripe || !elements) {
         // Stripe.js hasn't yet loaded.
         // Make sure to disable form submission until Stripe.js has loaded.
+        console.log("................");
         return;
       }
   
@@ -65,19 +73,33 @@ const CheckoutForm = () => {
           return_url: "http://localhost:3000",
         },
       });
+
+
+      //this code is temporary
+      if(response){
+        const response = await saveUser(formValues,planValue)
+        if(response){
+          console.log("reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeresponse",response);
+          navigate("/paymentsuccess")
+        }
+        // console.log(",,,,,,,,,nnnnnnnnnnnnnnnnnnnnn",planValue);
+      }
   console.log("response......................",response);
+
+
+
       // This point will only be reached if there is an immediate error when
       // confirming the payment. Otherwise, your customer will be redirected to
       // your `return_url`. For some payment methods like iDEAL, your customer will
       // be redirected to an intermediate site first to authorize the payment, then
       // redirected to the `return_url`.
-
       
-      // if (error.type === "card_error" || error.type === "validation_error") {
-      //   setMessage(error.message);
-      // } else {
-      //   setMessage("An unexpected error occurred.");
-      // }
+      
+      if (response?.error.type === "card_error" || response?.error.type === "validation_error") {
+        setMessage(response?.error.message);
+      } else {
+        setMessage("An unexpected error occurred.");
+      }
   
       setIsLoading(false);
     };
@@ -99,6 +121,13 @@ const CheckoutForm = () => {
         {message && <div id="payment-message" className="payment-message">{message}</div>}
       </form>
     );
+
+    }
+   // Prop types definition
+CheckoutForm.propTypes = {
+  formValues: PropTypes.object,
+  planValue: PropTypes.object,
+ 
 };
 
 export default CheckoutForm;

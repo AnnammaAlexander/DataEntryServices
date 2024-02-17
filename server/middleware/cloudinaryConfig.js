@@ -16,7 +16,7 @@ const profileOptions = {
         transformation: [{ width: 500, height: 500, crop: 'limit' },{ quality: '60' }],
         public_id:(req,file) => {
             const originalname = file.originalname
-            // console.log("originalname",originalname);
+            console.log("originalname",originalname);
             return `image-${Date.now()}-${originalname[0]}`
         }
     }

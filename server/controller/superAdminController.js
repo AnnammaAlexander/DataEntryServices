@@ -131,6 +131,7 @@ const superAdminController = {
   getClientList: async (req, res) => {
     try {
       const response = await superAdminHelper.allClientList();
+      console.log("gggggggggggg");
       if (response) {
         res.json({ response, status: true });
       }
