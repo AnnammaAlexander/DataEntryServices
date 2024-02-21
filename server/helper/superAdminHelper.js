@@ -68,7 +68,6 @@ const superAdminHelper = {
       const responseArray = [];
 
       for (const singleFile of files) {
-        console.log("llllllllllllll",singleFile.path);
         const imgUrl = singleFile.path.split("/project-")[1];
         const imageDoc = { userId, imgUrl, projectNoCount };
 
@@ -248,7 +247,6 @@ const superAdminHelper = {
     try {
       const response = await ProjectImg.findOneAndUpdate({userId,_id:ptojectId},{$set:{isDeleted:true}})
       if(response){
-        // console.log("reeeeeeeeeeeeee",response);
         return response
       }
     } catch (error) {

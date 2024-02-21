@@ -2,7 +2,7 @@ import UserLogin from "../../../component/user/UserLogin/UserLogin"
 
 function UserLoginPage() {
   return (
-    <div>
+    <div className="overflow-x-hidden">
       <UserLogin/>
     </div>
   )

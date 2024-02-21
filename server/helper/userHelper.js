@@ -2,6 +2,8 @@ import Subscription from "../model/schema/subscripionSchema.js";
 import User from "../model/schema/userSchema.js";
 import {configKeys} from "../config/configKeys.js"
 import jwt from "jsonwebtoken";
+import mongoose from 'mongoose';
+
 
 const userHelper = {
   userExist: async (email) => {
@@ -179,6 +181,48 @@ const userHelper = {
     } catch (error) {
         console.log("error in getuserDataHelper");
    
+    }
+  },
+  //get profiledata
+  profiledata: async (userId) => {
+    try {
+      const userIdObjectId =new mongoose.Types.ObjectId(userId);
+  
+      console.log(",,,,,,,,,,", userIdObjectId);
+      const response = await User.aggregate([
+        {
+          $match: {
+            _id: userIdObjectId // Use userIdObjectId directly
+          },
+        
+        },
+        {
+          $project: {
+            name: "$name",
+            phonenumber: "$phonenumber",
+            email: "$email",
+            nationality: "$nationality",
+            dp: "$dp",
+          }
+        },
+       
+      ]);
+      const result = response[0];
+
+      return result;
+    } catch (error) {
+      return false
+      // Handle the error appropriately
+      console.error("Error in profiledata helper:", error);
+      throw error; // Rethrow the error or handle it as needed
+    }
+  },
+  changePhonenumber : async(userId,phonenumber) =>{
+    try {
+      const response = await User.findOneAndUpdate()
+    } catch (error) {
+      console.log("error in changePhonenumber");
+
     }
   }
 

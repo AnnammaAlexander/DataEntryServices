@@ -1,16 +1,23 @@
 import nodemailer from 'nodemailer'
- 
+
 
 
 export const nodemailerVerify = (email,uuid)=>{
+
+
     const transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
+      host: "smtpout.secureserver.net",
+      secure: true,
+    secureConnection: false, // TLS requires secureConnection to be false
+    tls: {
+        ciphers:'SSLv3'
+    },
+    requireTLS:true,
+    port: 465,
+    debug: true,
         auth: {
-          // TODO: replace `user` and `pass` values from <https://forwardemail.net>
-          user: "annammaka002@gmail.com",
-          pass: "fzmp iaec lppy srxl",
+          user: "noreply@codedone.uk",
+          pass: "noreply@123",
         },
       });
       
@@ -18,21 +25,21 @@ export const nodemailerVerify = (email,uuid)=>{
       async function main() {
         // send mail with defined transport object
         const info = await transporter.sendMail({
-          from: '"DataEntry Service 👻" <annammaka002@gmail.com>', // sender address
+          from: '"DataEntry Service 👻" <noreply@codedone.uk>', // sender address
           to: email, // list of receivers
           subject: "verify email ✔", // Subject line
           text: "Please verify your email by enter the otp ?", // plain text body
           html: `<b>${uuid}</b>`, // html body
+          attachments: [{
+            filename: "Terms and condition",
+            path:'D:/DataEntryServices/server/service/Terms and Policies.pdf',
+            contentType: 'application/pdf'
+
+        }]
         });
       
         console.log("Message sent: %s", info.messageId);
-        // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-      
-        //
-        // NOTE: You can go to https://forwardemail.net/my-account/emails to see your email delivery status and preview
-        //       Or you can use the "preview-email" npm package to preview emails locally in browsers and iOS Simulator
-        //       <https://github.com/forwardemail/preview-email>
-        //
+        
       }
       
       main().catch(console.error);

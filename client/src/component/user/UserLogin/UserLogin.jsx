@@ -36,11 +36,11 @@ function UserLogin() {
   };
 const handlePassword = (e)=>{
   setPasswordValue(e.target.value)
-  formik.setFieldValue("password",PasswordValue)
+  formik.handleChange(e); // Let formik handle the change event
 
 }
-  //formik validation
-  const formik = useFormik({
+//formik validation
+const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
@@ -49,11 +49,12 @@ const handlePassword = (e)=>{
       username: Yup.string()
         .email("Invalid Email address")
         .required("Required"),
-      password: Yup.string()
+        password: Yup.string()
         .max(10, "Password must be less than 10 character")
         .required("Required"),
-    }),
-    onSubmit: async (values) => {
+      }),
+      onSubmit: async (values) => {
+      console.log(",,,,,,,,,,,,,,,,,,,,,,,,,",values);
       const response = await handleUserLogin(values);
       if (response?.status == "success") {
         if (response?.token) {
@@ -67,9 +68,9 @@ const handlePassword = (e)=>{
   });
 
   return (
-    <div className="w-full h-screen  flex justify-center items-center ">
+    <div className="w-full h-screen flex justify-center items-center ">
       <Card
-        className="w-3/5 flex-row flex-wrap rounded-none justify-center  shadow-2xl p-4"
+        className="w-100 flex-row flex-wrap rounded-none justify-center shadow-2xl m-auto"
         style={{ background: "#eefbfd" }}
       >
         <CardHeader
@@ -95,7 +96,7 @@ const handlePassword = (e)=>{
             style={{ color: "#b3b3b3" }}
             className="mt-1 font-normal text-center lg:text-left"
           >
-            Enter your details
+            Enter your Details
           </Typography>
           <form
             className="mt-4 mb-2  max-w-screen-lg  self-center"
@@ -125,6 +126,8 @@ const handlePassword = (e)=>{
                 onChange={(e) => handlePassword(e)}
                 className="absolute"
                 crossOrigin={undefined}
+                value={PasswordValue}  // Set the value explicitly
+
               />
               <button
               type="button"

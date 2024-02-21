@@ -13,6 +13,10 @@ const userRouter =()=>{
      router.post('/saveUserData',uploadUserId,userController.saveUserDataAndTransaction)
      router.post('/loginuser',userController.userLogin)
      router.get("/userDataAndProject",middleware,userController.getUserDetails)
+     router.get("/userprofiledata",middleware,userController.getuserprofiledata)
+     router.patch('/changephone',middleware,userController.changephone)
+
+
 
 
 

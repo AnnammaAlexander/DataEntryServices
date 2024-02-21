@@ -147,7 +147,6 @@ const userData = {
   getUserDetails:async(req,res) =>{
     try {
       const UserId = req.user
-      console.log("UserId",UserId);
       const response = await userHelper.getuserDataHelper(UserId)
     } catch (error) {
       console.log("error in controller getUserDetails:", error);
@@ -155,6 +154,30 @@ const userData = {
         status: "failed",
         message: "Internal server error",
       });
+    }
+  },
+  //getuserprofiledata
+  getuserprofiledata:async(req,res)=>{
+    try {
+    const userId = req.user
+    const response = await userHelper.profiledata(userId)  
+    if(response){
+      res.json({status:true,response})
+    }
+    } catch (error) {
+      console.log("error in controller getuserprofiledata:", error);
+
+    }
+  },
+  //changephone
+  changephone : async(req,res) =>{
+    try {
+      const {phonenumber} =req.body
+      const userId = req.user
+      const resposne = await userHelper.changePhonenumber(userId,phonenumber)
+    } catch (error) {
+      console.log("error in controller changephone:", error);
+
     }
   }
 };

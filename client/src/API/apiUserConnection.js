@@ -86,10 +86,38 @@ export const handleUserLogin = async(values)=>{
 export const getData = async()=>{
 try {
   const response =await baseUrl.get("/user/userDataAndProject")
+  if(response){
+    response?.data
+  }
   
 } catch (error) {
   console.error("Error in getData:", error);
 
 }
+}
+//get userdetails for profile page
+export const getUser = async() =>{
+  try {
+    const response =await baseUrl.get ("/user/userprofiledata")
+    if(response){
+      return response?.data
+    }
+  } catch (error) {
+    console.error("Error in getData:", error);
+ 
+  }
+}
+//changeUserMobileNum
+export const changeUserMobileNum = async(values) =>{
+  try {
+    const resposne = await baseUrl.patch("/user/changephone",values)
+    if(resposne){
+      return resposne?.data
+    }
+
+  } catch (error) {
+    console.error("Error in changeUserMobileNum:", error);
+
+  }
 }
 
