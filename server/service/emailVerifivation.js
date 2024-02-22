@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer'
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { configKeys } from '../config/configKeys';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,8 +21,8 @@ export const nodemailerVerify = (email,uuid)=>{
     port: 465,
     debug: true,
         auth: {
-          user: "noreplys@codedone.uk",
-          pass: "noreplys@123",
+          user:configKeys.GODADDY_EMAIL,
+          pass: configKeys.GODADDY_EMAIL_PASSWORD
         },
       });
       

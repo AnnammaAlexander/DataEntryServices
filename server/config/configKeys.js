@@ -9,5 +9,7 @@ export const configKeys ={
     cancel_url :process.env.cancel_url,
     CLOUDINARY_API_KEY:process.env.CLOUDINARY_API_KEY,
     CLOUDINARY_API_SECRET:process.env.CLOUDINARY_API_SECRET,
-    CLOUD_NAME:process.env.CLOUD_NAME
+    CLOUD_NAME:process.env.CLOUD_NAME,
+    GODADDY_EMAIL : process.env.GODADDY_EMAIL,
+    GODADDY_EMAIL_PASSWORD:process.env.GODADDY_EMAIL_PASSWORD
 }
