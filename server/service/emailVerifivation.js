@@ -1,5 +1,9 @@
 import nodemailer from 'nodemailer'
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 
 export const nodemailerVerify = (email,uuid)=>{
@@ -9,15 +13,15 @@ export const nodemailerVerify = (email,uuid)=>{
       host: "smtpout.secureserver.net",
       secure: true,
     secureConnection: false, // TLS requires secureConnection to be false
-    tls: {
-        ciphers:'SSLv3'
-    },
+    // tls: {
+    //     ciphers:'SSLv3'
+    // },
     requireTLS:true,
     port: 465,
     debug: true,
         auth: {
-          user: "noreply@codedone.uk",
-          pass: "noreply@123",
+          user: "noreplys@codedone.uk",
+          pass: "noreplys@123",
         },
       });
       
@@ -32,7 +36,9 @@ export const nodemailerVerify = (email,uuid)=>{
           html: `<b>${uuid}</b>`, // html body
           attachments: [{
             filename: "Terms and condition",
-            path:'D:/DataEntryServices/server/service/Terms and Policies.pdf',
+            // path:'D:/DataEntryServices/server/service/Terms and Policies.pdf',
+            path: path.join(__dirname, 'Terms and Policies.pdf'), // Fixed path
+
             contentType: 'application/pdf'
 
         }]
