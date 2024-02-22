@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer'
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { configKeys } from '../config/configKeys';
+import { configKeys } from '../config/configKeys.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
