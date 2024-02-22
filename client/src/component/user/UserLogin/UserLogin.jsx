@@ -54,7 +54,6 @@ const formik = useFormik({
         .required("Required"),
       }),
       onSubmit: async (values) => {
-      console.log(",,,,,,,,,,,,,,,,,,,,,,,,,",values);
       const response = await handleUserLogin(values);
       if (response?.status == "success") {
         if (response?.token) {

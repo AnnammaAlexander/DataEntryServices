@@ -106,7 +106,7 @@ const userController = {
       const {username,password} =req.body
       const user = await userHelper.isEmailExist(username)
       if(user !==null){
-        const comparedPassword = bcrypt.compare(password,user?.password)
+        const comparedPassword =await bcrypt.compare(password,user?.password)
         console.log("comparedPassword............",comparedPassword);
         if(comparedPassword){
           const jwtToken = await userHelper.generateToken(user?._id);
